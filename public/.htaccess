@@ -1,0 +1,17 @@
+Options -Indexes
+RewriteEngine On
+
+# Security headers
+Header always set X-Content-Type-Options nosniff
+Header always set X-Frame-Options DENY
+Header always set X-XSS-Protection "1; mode=block"
+
+# Deny access to sensitive files
+<FilesMatch "\.(sql|log|env|md|json)$">
+    Require all denied
+</FilesMatch>
+
+# Redirect all requests to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L,QSA]
